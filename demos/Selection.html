@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Selection</title>
+</head>
+<body>
+  <div class="wrapper">
+    <div>
+      <h1>在h1标签里<b>在b标签里</b>在h1标签里<i>在i标签里</i></h1>
+    </div>
+    <input id="input" type="text" value="fjowefjoeij" />
+    <textarea name="" id="textarea" cols="30" rows="10"></textarea>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+
+      document.getElementById('input').focus()
+
+      document.body.addEventListener('click', () => {
+        let s = window.s = window.getSelection()
+        console.log('---', s, s.toString())
+
+
+      }, false)
+
+    }, false)
+
+
+    /**
+     * 替换选择区字符
+    */
+    function setRangeText (dom, str) {
+      dom.setRangeText(str)
+    }
+
+    /**
+     * 选择光标区域
+    */
+    function setSelectionRange (dom, start, end) {
+      dom.setSelectionRange(start, end)
+    }
+
+  </script>
+</body>
+</html>
