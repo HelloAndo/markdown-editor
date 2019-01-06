@@ -6,73 +6,79 @@ import { connect } from 'react-redux';
 
 import { triggerOperation } from '../store/actionType'
 
+// TODO:mark使用正则？
 const TOOLBAR = [
   {
     name: 'bold',
-    icon: icon,
-    insertString: '**'
+    markStart: '**',
+    markEnd: '**',
+    placeholder: '加粗',
+    exec: 'wrap'
   },
   {
     name: 'italic',
-    icon: icon,
-    insertString: '*'
+    // mark: /^\*(\w)*\*$/,
+    markStart: '*',
+    markEnd: '*',
+    placeholder: '斜体'
   },
   {
     name: 'underline',
-    icon: icon,
-    insertString: '---'
+    markStart: '<u>',
+    markEnd: '</u>'
   },
   {
     name: 'strickout',
-    icon: icon,
-    insertString: '<u></u>'
+    markStart: '~~',
+    markEnd: '~~',
   },
   {
     name: 'headline',
-    icon: icon,
-    insertString: '# '
+    markStart: '# '
   },
   {
     name: 'quote',
-    icon: icon,
-    insertString: '> '
+    markStart: '> '
   },
   {
     name: 'code',
-    icon: icon,
-    insertString: '``` ```'
+    markStart: '\n\r```\n\r',
+    markEnd: '```'
   },
   {
     name: 'orderedList',
-    icon: icon,
-    insertString: '<u></u>'
+    markStart: '1. '
   },
   {
     name: 'unorderedList',
-    icon: icon,
-    insertString: '<u></u>'
+    markStart: '- '
   },
   {
     name: 'link',
-    icon: icon,
-    insertString: '[Link](http://example.com/)'
+    markStart: '[Link](http://example.com/)'
   },
   {
     name: 'table',
-    icon: icon,
-    insertString: '<u></u>'
+    markStart: `\n\rcolumn1 | column2 | column3 
+------- | ------- | ------- 
+column1 | column2 | column3 
+column1 | column2 | column3 
+column1 | column2 | column3`,
+    exec: 'wrap'
   },
   {
     name: 'dividing',
-    icon: icon,
-    insertString: '<u></u>'
+    markStart: '\n\r----\n\r'
   },
   {
     name: 'picture',
-    icon: icon,
-    insertString: '<u></u>'
+    markStart: '![Img](http://example.com/)'
   },
 ]
+
+for (let tool of TOOLBAR) {
+  tool.icon = require(`../images/${tool.name}.svg`)
+}
 
 @connect(
   null,
@@ -92,7 +98,7 @@ class Toolbar extends Component {
               onClick={this.onClick.bind(this, tool)}
               >
               <i
-                style={{ backgroundImage: `url(${tool.icon})` }} >{tool.name}
+                style={{ backgroundImage: `url(${tool.icon})` }} >
               </i>
             </div>
           ))
@@ -105,6 +111,7 @@ class Toolbar extends Component {
     const { name } = tool
 
     // console.log('clicked: ', name)
+
     this.props.triggerOperation(tool)
   }
 }

@@ -37,7 +37,7 @@ html, body, #root, .App, .main-box{
     i {
       display: inline-block;
       width: 30px; height: 30px;
-      background-size: cover;
+      background-size: contain;
       cursor: default;
     }
   }
@@ -78,6 +78,11 @@ html, body, #root, .App, .main-box{
 
   pre {
     margin-bottom: 10px;
+  }
+
+  code {
+    background-color: #fff;
+    padding: 4px 8px;
   }
 
   blockquote {

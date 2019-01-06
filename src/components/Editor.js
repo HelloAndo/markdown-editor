@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 
 import { editorChange } from '../store/actionType'
 
+import EditBox from '../utils/editBox'
+
+let editBox = null
+
 @connect(
   state => ({ operation: state.operation}),
   // null
@@ -48,29 +52,43 @@ class Editor extends Component {
   }
 
   componentDidMount () {
-    // this.editorRef.addEventListener('click', () => {
-    //   let s = window.getSelection()
-    //   console.log('editor: ', s.toString())
+    editBox = new EditBox(this.editorRef)
+
+    // document.onselectionchange = (e) => {
+    //   // console.log('onselectionchange')
+    //   this.editBox.update()
+    // }
+    // // debugger
+    // this.editorRef.addEventListener('selectionchange', (e) => {
+    //   // e.stopPropagation()
+    //   // debugger
+    //   this.updateEditorState()
     // }, false)
   }
 
   componentWillReceiveProps (props, old) {
-    const { operation } = props
+
+    const { operation, operation: { exec } } = props
+    
     console.log(operation, this.editorRef)
-    let _value = this.editorRef.value,
-        _start = this.editorRef.selectionStart,
-        _end = this.editorRef.selectionEnd,
-        value;
 
-    value = _value.substr(0, _start) + operation.insertString + _value.substr(_start, _end) + operation.insertString + _value.substr(_end, _value.length)
+    let { value, range: [start, end] } = editBox[exec || 'wrap'](operation)
 
+    // document.createRange()
+    
     this.setState({
       value
+    }, () => {
+      
+      this.editorRef.focus()
+      // debugger
+      this.editorRef.setSelectionRange(start, end)
+
     })
   }
 
   componentWillUnmount () {
-    this.editorRef.removeEventListener('click')
+    // this.editorRef.removeEventListener('click')
   }
 }
 
